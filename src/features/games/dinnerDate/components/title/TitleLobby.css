@@ -1,0 +1,363 @@
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Special+Elite&display=swap");
+
+:root {
+  --bg: #04070a;
+  --fg: #e9dcc0;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.lamp {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* ---------- Candle bodies ---------- */
+.candle {
+  position: absolute;
+  left: calc(-15px * var(--s));
+  top: 0;
+  width: calc(30px * var(--s));
+  height: calc(24px * var(--s));
+  border-radius: calc(4px * var(--s)) calc(4px * var(--s)) calc(2px * var(--s))
+    calc(2px * var(--s));
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0) 22%,
+      rgba(255, 255, 255, 0.18) 48%,
+      rgba(0, 0, 0, 0) 70%,
+      rgba(0, 0, 0, 0.6) 100%
+    ),
+    linear-gradient(180deg, #efe6d0 0%, #d8cdb2 55%, #a99f88 100%);
+  box-shadow:
+    0 calc(5px * var(--s)) calc(9px * var(--s)) rgba(0, 0, 0, 0.8),
+    inset 0 calc(-4px * var(--s)) calc(6px * var(--s)) rgba(0, 0, 0, 0.35);
+}
+
+.candle-wick {
+  position: absolute;
+  left: 50%;
+  top: calc(-6px * var(--s));
+  width: calc(2px * var(--s));
+  height: calc(8px * var(--s));
+  transform: translateX(-50%);
+  background: linear-gradient(#2a1c10, #0d0805);
+  border-radius: 1px;
+  z-index: 2;
+}
+
+.candle-top {
+  position: absolute;
+  left: calc(1px * var(--s));
+  right: calc(1px * var(--s));
+  top: calc(-3px * var(--s));
+  height: calc(7px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 55%,
+    #fff0c4 0%,
+    #f1d896 55%,
+    #bfa570 100%
+  );
+}
+
+.candle-drip {
+  position: absolute;
+  left: calc(5px * var(--s));
+  top: calc(2px * var(--s));
+  width: calc(5px * var(--s));
+  height: calc(11px * var(--s));
+  border-radius: 0 0 calc(4px * var(--s)) calc(4px * var(--s));
+  background: linear-gradient(#f4ead2, #ded2b3);
+  opacity: 0.9;
+}
+
+/* warm light from the flame washing over the wax */
+.candle-lit {
+  position: absolute;
+  inset: calc(-3px * var(--s)) 0 0 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 170, 70, 0.75) 0%,
+    rgba(255, 130, 40, 0.3) 45%,
+    transparent 75%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* ---------- Glow / flame / smoke ---------- */
+.glow {
+  position: absolute;
+  left: calc(-52px * var(--s));
+  top: calc(-70px * var(--s));
+  width: calc(104px * var(--s));
+  height: calc(104px * var(--s));
+  pointer-events: none;
+}
+
+.glow-core {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 165, 60, 0.55),
+    rgba(255, 120, 30, 0.18) 45%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  animation: glow-flicker var(--d, 0.9s) ease-in-out infinite;
+}
+
+.flame {
+  position: absolute;
+  left: calc(-8px * var(--s));
+  bottom: calc(1px * var(--s));
+  width: calc(16px * var(--s));
+  height: calc(40px * var(--s));
+}
+
+.flame svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  animation: flame-flicker var(--d, 0.9s) ease-in-out infinite;
+}
+
+.smoke {
+  position: absolute;
+  left: calc(-4px * var(--s));
+  top: calc(-26px * var(--s));
+  width: calc(8px * var(--s));
+  height: calc(18px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(rgba(190, 190, 200, 0.5), transparent 70%);
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+
+/* ---------- Title ---------- */
+.title-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(390px * var(--s));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.title-bloom {
+  position: absolute;
+  left: 50%;
+  top: calc(-30px * var(--s));
+  width: calc(1100px * var(--s));
+  height: calc(300px * var(--s));
+  margin-left: calc(-550px * var(--s));
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 140, 40, 0.2) 0%,
+    rgba(255, 110, 20, 0.08) 45%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+.title-the {
+  font-family: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  font-weight: 400;
+  font-size: calc(28px * var(--s));
+  padding-left: 0.55em; /* balances trailing letter-spacing */
+  color: #d9c9a6;
+  text-shadow: 0 0 calc(10px * var(--s)) rgba(255, 170, 70, 0.55);
+}
+
+.title-main {
+  margin: calc(2px * var(--s)) 0 0;
+  font-family: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  font-weight: 400; /* IM Fell has a single weight: never fake-bold it */
+  font-size: calc(106px * var(--s));
+  line-height: 1.05;
+  white-space: nowrap;
+  color: #f6e9cb;
+  -webkit-text-stroke: calc(1.1px * var(--s)) rgba(246, 233, 203, 0.55);
+  text-shadow:
+    0 0 calc(6px * var(--s)) rgba(255, 220, 150, 0.8),
+    0 0 calc(22px * var(--s)) rgba(255, 150, 50, 0.55),
+    0 0 calc(60px * var(--s)) rgba(255, 110, 20, 0.35),
+    0 calc(4px * var(--s)) calc(10px * var(--s)) rgba(0, 0, 0, 0.9);
+  /* subtle candle-flicker, starts after the reveal has finished */
+  animation: title-flicker 4.5s ease-in-out 9s infinite;
+}
+
+.title-letter {
+  display: inline-block;
+  will-change: transform, filter, opacity;
+}
+
+.title-gap {
+  display: inline-block;
+  width: 0.34em;
+}
+
+.title-sub {
+  margin: calc(26px * var(--s)) 0 0;
+  font-family: "Special Elite", "Courier New", monospace;
+  font-weight: 400;
+  font-size: calc(19px * var(--s));
+  padding-left: 0.3em;
+  color: #cbbd9f;
+  text-shadow:
+    0 0 calc(8px * var(--s)) rgba(255, 170, 70, 0.4),
+    0 calc(2px * var(--s)) calc(6px * var(--s)) rgba(0, 0, 0, 0.9);
+}
+
+/* ---------- Overlays & UI ---------- */
+.flash-layer {
+  background: radial-gradient(
+    ellipse at 70% 10%,
+    #dfeaff 0%,
+    #8fa8d8 35%,
+    #2a3a5c 80%
+  );
+  mix-blend-mode: screen;
+}
+
+.vig {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+}
+
+.start-btn {
+  font:
+    600 clamp(15px, 1.6vw, 22px) / 1 Georgia,
+    "Times New Roman",
+    serif;
+  letter-spacing: 0.14em;
+  color: var(--fg);
+  background: rgba(10, 8, 5, 0.55);
+  border: 1px solid rgba(233, 220, 192, 0.45);
+  padding: 0.9em 2.2em;
+  border-radius: 2px;
+  cursor: pointer;
+  text-shadow: 0 0 12px rgba(255, 170, 70, 0.6);
+  animation: pulse 3s ease-in-out infinite;
+  backdrop-filter: blur(3px);
+}
+
+.start-btn:hover,
+.start-btn:focus-visible {
+  background: rgba(60, 35, 10, 0.7);
+  border-color: #ffb85a;
+  outline: none;
+}
+
+.start-btn:disabled {
+  cursor: default;
+}
+
+.snd-btn {
+  font:
+    14px Georgia,
+    serif;
+  color: var(--fg);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(233, 220, 192, 0.3);
+  padding: 0.5em 0.9em;
+  border-radius: 2px;
+  cursor: pointer;
+  right: max(14px, env(safe-area-inset-right));
+  top: max(14px, env(safe-area-inset-top));
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scale(1, 1) skewX(0);
+  }
+  25% {
+    transform: scale(0.9, 1.09) skewX(-3deg);
+  }
+  50% {
+    transform: scale(1.06, 0.93) skewX(2deg);
+  }
+  75% {
+    transform: scale(0.95, 1.05) skewX(3deg);
+  }
+}
+
+@keyframes glow-flicker {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes title-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.96;
+  }
+  18% {
+    opacity: 1;
+  }
+  47% {
+    opacity: 0.93;
+  }
+  52% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.97;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 22px rgba(255, 170, 70, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .start-btn,
+  .flame svg,
+  .glow-core,
+  .title-main {
+    animation: none;
+  }
+}

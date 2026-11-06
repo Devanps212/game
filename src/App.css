@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700;800&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --font-heading: "Bebas Neue", sans-serif;
+  --font-body: "IBM Plex Mono", monospace;
+  --font-ui: "Rajdhani", sans-serif;
+  --font-iphone:
+    "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-android: "Roboto", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.04em;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+  }
+
+  p {
+    font-family: var(--font-body);
+    line-height: 1.7;
+  }
+
+  a {
+    font-family: var(--font-ui);
+    font-weight: 500;
+  }
+
+  button {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  small {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  span {
+    font-family: inherit;
+  }
+
+  label {
+    font-family: var(--font-ui);
+    font-weight: 500;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body);
+  }
+
+  li {
+    font-family: var(--font-body);
+  }
+
+  blockquote {
+    font-family: var(--font-body);
+  }
+
+  code,
+  pre {
+    font-family: var(--font-body);
+  }
+}
+
+@layer components {
+  .custom-card {
+    @apply rounded-sm border border-gray-800 bg-[#0f0f0ffc];
+  }
+
+  .iphone-ui {
+    font-family: var(--font-iphone);
+    letter-spacing: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .iphone-ui h1,
+  .iphone-ui h2,
+  .iphone-ui h3,
+  .iphone-ui h4,
+  .iphone-ui h5,
+  .iphone-ui h6,
+  .iphone-ui p,
+  .iphone-ui a,
+  .iphone-ui button,
+  .iphone-ui small,
+  .iphone-ui span,
+  .iphone-ui label,
+  .iphone-ui input,
+  .iphone-ui textarea,
+  .iphone-ui select,
+  .iphone-ui li,
+  .iphone-ui blockquote,
+  .iphone-ui code,
+  .iphone-ui pre {
+    font-family: var(--font-iphone);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .iphone-ui h1,
+  .iphone-ui h2,
+  .iphone-ui h3 {
+    font-weight: 700;
+  }
+
+  .iphone-ui h4,
+  .iphone-ui h5,
+  .iphone-ui h6,
+  .iphone-ui button,
+  .iphone-ui label {
+    font-weight: 500;
+  }
+
+  .iphone-ui p {
+    line-height: normal;
+  }
+
+  .android-ui {
+    font-family: var(--font-android);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .android-ui h1,
+  .android-ui h2,
+  .android-ui h3,
+  .android-ui h4,
+  .android-ui h5,
+  .android-ui h6,
+  .android-ui p,
+  .android-ui a,
+  .android-ui button,
+  .android-ui small,
+  .android-ui span,
+  .android-ui label,
+  .android-ui input,
+  .android-ui textarea,
+  .android-ui select,
+  .android-ui li,
+  .android-ui blockquote,
+  .android-ui code,
+  .android-ui pre {
+    font-family: var(--font-android);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .android-ui h1,
+  .android-ui h2,
+  .android-ui h3 {
+    font-weight: 700;
+  }
+
+  .android-ui h4,
+  .android-ui h5,
+  .android-ui h6,
+  .android-ui button,
+  .android-ui label {
+    font-weight: 500;
+  }
+
+  .android-ui p {
+    line-height: normal;
+  }
+}
