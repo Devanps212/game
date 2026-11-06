@@ -7,7 +7,7 @@ import type {
   Effects,
 } from "../../chat/types/story.types";
 import SevenLampsOpening from "../../intro/components/theSevenLamps/TheSevenLamps";
-import SevenLampsTitleLobby from "../../games/dinnerDate/components/title/TitleLobby";
+import SevenLampsTitleLobby from "./components/title/TitleLobby";
 
 const IMG = (f: string) => `/games/theSevenLamps/images/${f}`;
 const VID = (f: string) => `/games/theSevenLamps/videos/${f}`;
