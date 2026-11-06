@@ -58,8 +58,9 @@ export type Message = {
   /** Sender label. On "them" it shows above the bubble (group-chat style);
    *  on "system" it turns the line into an in-person dialogue card. */
   speaker?: string;
-  /** System messages only. Defaults to "dialogue" if `speaker` is set, else "narration". */
-  variant?: "narration" | "stamp" | "dialogue" | "title";
+  /** System messages only. Defaults to "dialogue" if `speaker` is set, else "narration".
+   *  "era" = time-jump card ("March 2046"). The first one turns the chat window black. */
+  variant?: "narration" | "stamp" | "dialogue" | "title" | "era";
 };
 
 /* ───────────── Calls ───────────── */
@@ -84,7 +85,8 @@ export type Beat = Partial<Omit<Message, "id">> & {
   /** Skip this beat unless the condition holds. */
   when?: Condition;
   set?: Effects;
-  startChat?: { chatId: string; delayMs?: number };
+  /** `stepId` jumps into a specific step of that chat (used by `jumpTo` in the story file). */
+  startChat?: { chatId: string; stepId?: string; delayMs?: number };
   call?: CallSpec;
 };
 

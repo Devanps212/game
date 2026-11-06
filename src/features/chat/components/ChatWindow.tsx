@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ChevronLeft, ChevronRight, Video, X } from "lucide-react";
 import type { ChatThread, Message, Option } from "../types/chat.types";
 import type { Flags } from "../types/story.types.ts";
@@ -39,6 +39,8 @@ type Props = {
 const sameRun = (a?: Message, b?: Message) =>
   !!a && !!b && a.from === b.from && a.speaker === b.speaker;
 
+const FADE = "transition-colors duration-[2000ms]";
+
 const ChatWindow = ({
   thread,
   messages,
@@ -69,8 +71,22 @@ const ChatWindow = ({
 
   const lastMineId = [...messages].reverse().find((m) => m.from === "me")?.id;
 
+  // Once an "era" message shows up (the "March 2046" cut), the whole chat
+  // fades to black and stays that way.
+  const dark = messages.some((m) => m.variant === "era");
+
+  const themeVars = {
+    "--imsg-bg": dark ? "#000" : "#fff",
+    "--imsg-them": dark ? "#26262a" : "#e9e9eb",
+  } as CSSProperties;
+
   return (
-    <div className="relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white text-black">
+    <div
+      className={`relative flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden ${FADE} ${
+        dark ? "bg-black text-white" : "bg-white text-black"
+      }`}
+      style={themeVars}
+    >
       <style>{`
         .imsg-bubble { position: relative; }
         .imsg-me.imsg-tail::before {
@@ -90,7 +106,7 @@ const ChatWindow = ({
           right: -26px;
           width: 26px;
           height: 18px;
-          background: #fff;
+          background: var(--imsg-bg);
           border-bottom-left-radius: 10px;
         }
         .imsg-them.imsg-tail::before {
@@ -100,7 +116,7 @@ const ChatWindow = ({
           left: -7px;
           width: 20px;
           height: 18px;
-          background: #e9e9eb;
+          background: var(--imsg-them);
           border-bottom-right-radius: 16px 14px;
         }
         .imsg-them.imsg-tail::after {
@@ -110,14 +126,21 @@ const ChatWindow = ({
           left: -26px;
           width: 26px;
           height: 18px;
-          background: #fff;
+          background: var(--imsg-bg);
           border-bottom-right-radius: 10px;
         }
         .imsg-scroll::-webkit-scrollbar { width: 6px; }
         .imsg-scroll::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 999px; }
       `}</style>
 
-      <div className="flex items-center justify-between border-b border-black/10 bg-zinc-100/80 px-4 pb-2 pt-3 backdrop-blur-xl">
+      {/* Header */}
+      <div
+        className={`flex items-center justify-between border-b px-4 pb-2 pt-3 backdrop-blur-xl ${FADE} ${
+          dark
+            ? "border-white/10 bg-zinc-900/80"
+            : "border-black/10 bg-zinc-100/80"
+        }`}
+      >
         <button
           onClick={onBack}
           className="flex w-20 items-center text-[#0a84ff]"
@@ -136,7 +159,11 @@ const ChatWindow = ({
           >
             {thread.initials}
           </div>
-          <span className="mt-1 flex items-center text-xs text-black">
+          <span
+            className={`mt-1 flex items-center text-xs ${FADE} ${
+              dark ? "text-white" : "text-black"
+            }`}
+          >
             {thread.name}
             <ChevronRight size={12} className="text-zinc-500" />
           </span>
@@ -153,6 +180,7 @@ const ChatWindow = ({
         </div>
       </div>
 
+      {/* Messages */}
       <div
         ref={scrollRef}
         className="imsg-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-3"
@@ -194,7 +222,9 @@ const ChatWindow = ({
                     className={`imsg-bubble max-w-[70%] break-words rounded-[18px] px-3.5 py-2 text-[17px] leading-[22px] ${
                       mine
                         ? "imsg-me bg-[#0a84ff] text-white"
-                        : "imsg-them bg-[#e9e9eb] text-black"
+                        : `imsg-them bg-[var(--imsg-them)] ${
+                            dark ? "text-white" : "text-black"
+                          }`
                     } ${isLast ? "imsg-tail" : ""} ${m.media ? "mt-0.5" : ""}`}
                   >
                     {m.text}
@@ -212,7 +242,7 @@ const ChatWindow = ({
 
           {typing && (
             <div className="mt-2 flex flex-col items-start">
-              <div className="imsg-bubble imsg-them imsg-tail flex items-center gap-1 rounded-[18px] bg-[#e9e9eb] px-4 py-3.5">
+              <div className="imsg-bubble imsg-them imsg-tail flex items-center gap-1 rounded-[18px] bg-[var(--imsg-them)] px-4 py-3.5">
                 {[0, 1, 2].map((d) => (
                   <span
                     key={d}
@@ -226,10 +256,11 @@ const ChatWindow = ({
         </div>
       </div>
 
+      {/* Options */}
       <div
-        className={`min-h-16 gap-2 border-t border-black/10 bg-white px-3 pb-4 pt-3 ${
-          stacked ? "flex max-h-[45%] flex-col overflow-y-auto" : "flex"
-        }`}
+        className={`min-h-16 gap-2 border-t px-3 pb-4 pt-3 ${FADE} ${
+          dark ? "border-white/10 bg-black" : "border-black/10 bg-white"
+        } ${stacked ? "flex max-h-[45%] flex-col overflow-y-auto" : "flex"}`}
       >
         {!typing &&
           shown.map((option) => {
@@ -243,7 +274,9 @@ const ChatWindow = ({
                   stacked ? "w-full shrink-0 text-left" : "flex-1"
                 } ${
                   locked
-                    ? "cursor-not-allowed border-zinc-300 bg-zinc-100 text-zinc-400"
+                    ? dark
+                      ? "cursor-not-allowed border-zinc-700 bg-zinc-900 text-zinc-500"
+                      : "cursor-not-allowed border-zinc-300 bg-zinc-100 text-zinc-400"
                     : "border-[#0a84ff]/40 bg-[#0a84ff]/5 text-[#0a84ff] hover:bg-[#0a84ff]/15 active:bg-[#0a84ff]/25"
                 }`}
               >
@@ -258,7 +291,12 @@ const ChatWindow = ({
           })}
       </div>
 
-      <div className="mx-auto mb-2 h-1.5 w-36 rounded-full bg-black" />
+      {/* Home indicator */}
+      <div
+        className={`mx-auto mb-2 h-1.5 w-36 rounded-full ${FADE} ${
+          dark ? "bg-white" : "bg-black"
+        }`}
+      />
 
       {zoom && (
         <div
